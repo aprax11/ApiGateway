@@ -8,7 +8,6 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Data
@@ -26,17 +25,16 @@ public class ApiService implements IApiService {
     }
 
     @Override
-    public Product getProduct(UUID id) {
-        return null;
+    public Product getProduct(String id) {
+        return productProducer.sendGetProductMessage(id);
     }
 
     @Override
     public Product updateProduct(Product product) throws ErrorResponseException {
-        return null;
+        return productProducer.sendUpdateProductMessage(product);
     }
-
     @Override
-    public String deleteProduct(UUID id) throws ErrorResponseException {
-        return null;
+    public String deleteProduct(String id) throws ErrorResponseException {
+        return productProducer.sendDeleteProductMessage(id);
     }
 }

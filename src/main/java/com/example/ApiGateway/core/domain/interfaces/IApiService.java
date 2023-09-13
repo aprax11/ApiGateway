@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface IApiService {
     Product createProduct(Product product);
     List<Product> getAllProducts();
-    Product getProduct(UUID id);
+    Product getProduct(String id);
     Product updateProduct(Product product) throws ErrorResponseException;
-    String deleteProduct(UUID id) throws ErrorResponseException;
+    String deleteProduct(String id) throws ErrorResponseException;
 }
