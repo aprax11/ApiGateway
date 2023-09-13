@@ -31,10 +31,10 @@ public class Controller {
 
     @GetMapping("/product/{id}")
     @ResponseStatus(OK)
-    public ResponseEntity<Product> getProduct(@PathVariable String id){
+    public ResponseEntity<Product> getProduct(@PathVariable("id") String id){
 
         log.info("Endpoint: get Product for product {} called", id);
-        return status(CREATED).body(apiService.getProduct(id));
+        return status(OK).body(apiService.getProduct(id));
     }
 
     @PostMapping(path="/products", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -53,7 +53,7 @@ public class Controller {
     }
     @DeleteMapping("/products/{id}")
     @ResponseStatus(OK)
-    public ResponseEntity<String> deleteProduct(@PathVariable String id) {
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") String id) {
 
         log.info("Endpoint: get delete product with id {} called", id);
         return status(OK).body(apiService.deleteProduct(id));
