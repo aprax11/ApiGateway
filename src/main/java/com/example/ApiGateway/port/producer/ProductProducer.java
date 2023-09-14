@@ -2,6 +2,7 @@ package com.example.ApiGateway.port.producer;
 
 import com.example.ApiGateway.core.domain.model.Product;
 import com.example.ApiGateway.exceptions.ErrorResponseException;
+import com.example.ApiGateway.port.interfaces.IProductProducer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.UUID;
 
 import static com.example.ApiGateway.core.domain.model.MessageType.*;
 
 @Slf4j
 @Service
-public class ProductProducer {
+public class ProductProducer implements IProductProducer {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -33,6 +33,7 @@ public class ProductProducer {
     private String routingKey;
 
 
+    @Override
     public Product sendCreateProductRequest(Product product){
 
         byte[] serializedProduct = new Gson().toJson(product).getBytes();
@@ -57,6 +58,7 @@ public class ProductProducer {
                 Product.class
         );
     }
+    @Override
     public List<Product> sendGetAllProductsMessage(){
 
         Message message = new Message("".getBytes());
@@ -78,6 +80,7 @@ public class ProductProducer {
                 }.getType()
         );
     }
+    @Override
     public Product sendUpdateProductMessage(Product product){
 
         byte[] serializedProduct = new Gson().toJson(product).getBytes();
@@ -100,6 +103,7 @@ public class ProductProducer {
                 Product.class
         );
     }
+    @Override
     public String sendDeleteProductMessage(String id){
 
         Message message = new Message(id.getBytes());
@@ -116,6 +120,7 @@ public class ProductProducer {
 
         return new String(receivedMessage.getBody(), StandardCharsets.UTF_8);
     }
+    @Override
     public Product sendGetProductMessage(String id){
 
         Message message = new Message(id.getBytes());

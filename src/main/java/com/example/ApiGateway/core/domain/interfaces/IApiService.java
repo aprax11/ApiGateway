@@ -4,7 +4,6 @@ import com.example.ApiGateway.core.domain.model.Product;
 import com.example.ApiGateway.exceptions.ErrorResponseException;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface IApiService {
     Product createProduct(Product product);

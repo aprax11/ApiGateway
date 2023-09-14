@@ -3,7 +3,7 @@ package com.example.ApiGateway.core.domain.service;
 import com.example.ApiGateway.core.domain.interfaces.IApiService;
 import com.example.ApiGateway.core.domain.model.Product;
 import com.example.ApiGateway.exceptions.ErrorResponseException;
-import com.example.ApiGateway.port.producer.ProductProducer;
+import com.example.ApiGateway.port.interfaces.IProductProducer;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class ApiService implements IApiService {
 
-    private final ProductProducer productProducer;
+    private final IProductProducer productProducer;
     @Override
     public Product createProduct(Product product) {
         return productProducer.sendCreateProductRequest(product);
