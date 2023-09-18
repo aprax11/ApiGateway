@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.ApiGateway.core.domain.model.MessageType.GET_PRODUCT;
+import static com.example.ApiGateway.core.domain.model.MessageType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -77,6 +77,7 @@ public class ProductProducerTest {
     }
     @Test
     void getAllProductsEmptyResponseMessageTest() {
+
         when(directExchange.getName()).thenReturn(TEST);
 
         assertThrows(ErrorResponseException.class, () ->
@@ -85,17 +86,30 @@ public class ProductProducerTest {
     }
     @Test
     void getAllProductsTest() {
+
         when(directExchange.getName()).thenReturn(TEST);
         when(rabbitTemplate.sendAndReceive(eq(TEST), eq(ROUTING_KEY), any(Message.class)))
                 .thenReturn(new Message((new Gson().toJson(ALL_PRODUCTS)).getBytes()));
 
         var receivedResponse = productProducer.sendGetAllProductsMessage();
 
+        ArgumentCaptor<Message> argumentCaptor = ArgumentCaptor.forClass(Message.class);
+        verify(rabbitTemplate).sendAndReceive(anyString(), anyString(), argumentCaptor.capture());
+
+        Message capturedArgument = argumentCaptor.getValue();
+
+        MessageType capturedArgumentMessageType = MessageType.valueOf(capturedArgument
+                .getMessageProperties()
+                .getType());
+
+
+        assertThat(capturedArgumentMessageType).isEqualTo(GET_ALL_PRODUCTS);
         assertThat(receivedResponse.get(0).getName()).isEqualTo(TEST_PRODUCT_ONE);
         assertThat(receivedResponse.get(1).getName()).isEqualTo(TEST_PRODUCT_TWO);
     }
     @Test
     void getProductEmptyResponseMessageTest() {
+
         when(directExchange.getName()).thenReturn(TEST);
 
         assertThrows(ErrorResponseException.class, () ->
@@ -107,7 +121,6 @@ public class ProductProducerTest {
         when(directExchange.getName()).thenReturn(TEST);
         when(rabbitTemplate.sendAndReceive(eq(TEST), eq(ROUTING_KEY), any(Message.class)))
                 .thenReturn(new Message((new Gson().toJson(ALL_PRODUCTS.get(0))).getBytes()));
-
 
         var receivedResponse = productProducer.sendGetProductMessage(TEST_ID);
 
@@ -123,9 +136,126 @@ public class ProductProducerTest {
                 .getType());
 
         assertThat(capturedArgumentBody).isEqualTo(TEST_ID);
-
         assertThat(capturedArgumentMessageType).isEqualTo(GET_PRODUCT);
-
         assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_ONE);
+    }
+    @Test
+    void createProductEmptyResponseMessageTest() {
+
+        when(directExchange.getName()).thenReturn(TEST);
+
+        Product testProduct = ALL_PRODUCTS.get(0);
+
+        assertThrows(ErrorResponseException.class, () ->
+                productProducer.sendCreateProductRequest(testProduct));
+    }
+    @Test
+    void createProductTest() {
+
+        Product testProduct = ALL_PRODUCTS.get(0);
+
+        when(directExchange.getName()).thenReturn(TEST);
+        when(rabbitTemplate.sendAndReceive(eq(TEST), eq(ROUTING_KEY), any(Message.class)))
+                .thenReturn(new Message((new Gson().toJson(testProduct)).getBytes()));
+
+        var receivedResponse = productProducer.sendCreateProductRequest(testProduct);
+
+        ArgumentCaptor<Message> argumentCaptor = ArgumentCaptor.forClass(Message.class);
+        verify(rabbitTemplate).sendAndReceive(anyString(), anyString(), argumentCaptor.capture());
+
+        Message capturedArgument = argumentCaptor.getValue();
+
+        String capturedArgumentBody = new String(capturedArgument.getBody(), StandardCharsets.UTF_8);
+
+        MessageType capturedArgumentMessageType = MessageType.valueOf(capturedArgument
+                .getMessageProperties()
+                .getType());
+
+        Product argumentProduct = new Gson().fromJson(
+                capturedArgumentBody,
+                Product.class
+        );
+
+        assertThat(argumentProduct).isEqualTo(testProduct);
+        assertThat(capturedArgumentMessageType).isEqualTo(CREATE_PRODUCT);
+        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_ONE);
+    }
+    @Test
+    void updateProductEmptyResponseMessageTest() {
+
+        when(directExchange.getName()).thenReturn(TEST);
+
+        Product testProduct = ALL_PRODUCTS.get(0);
+
+        assertThrows(ErrorResponseException.class, () ->
+                productProducer.sendUpdateProductMessage(testProduct));
+    }
+    @Test
+    void updateProductTest() {
+
+        Product testProduct = ALL_PRODUCTS.get(0);
+
+        when(directExchange.getName()).thenReturn(TEST);
+        when(rabbitTemplate.sendAndReceive(eq(TEST), eq(ROUTING_KEY), any(Message.class)))
+                .thenReturn(new Message((new Gson().toJson(testProduct)).getBytes()));
+
+        var receivedResponse = productProducer.sendUpdateProductMessage(testProduct);
+
+        ArgumentCaptor<Message> argumentCaptor = ArgumentCaptor.forClass(Message.class);
+        verify(rabbitTemplate).sendAndReceive(anyString(), anyString(), argumentCaptor.capture());
+
+        Message capturedArgument = argumentCaptor.getValue();
+
+        String capturedArgumentBody = new String(capturedArgument.getBody(), StandardCharsets.UTF_8);
+
+        MessageType capturedArgumentMessageType = MessageType.valueOf(capturedArgument
+                .getMessageProperties()
+                .getType());
+
+        Product argumentProduct = new Gson().fromJson(
+                capturedArgumentBody,
+                Product.class
+        );
+
+        assertThat(argumentProduct).isEqualTo(testProduct);
+        assertThat(capturedArgumentMessageType).isEqualTo(UPDATE_PRODUCT);
+        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_ONE);
+    }
+    @Test
+    void deleteProductEmptyResponseMessageTest() {
+
+        when(directExchange.getName()).thenReturn(TEST);
+
+        Product testProduct = ALL_PRODUCTS.get(0);
+
+        String id = testProduct.getId().toString();
+        assertThrows(ErrorResponseException.class, () ->
+                productProducer.sendDeleteProductMessage(id));
+    }
+    @Test
+    void deleteProductTest() {
+
+        String response = "deleted";
+
+        when(directExchange.getName()).thenReturn(TEST);
+        when(rabbitTemplate.sendAndReceive(eq(TEST), eq(ROUTING_KEY), any(Message.class)))
+                .thenReturn(new Message(response.getBytes()));
+
+        var receivedResponse = productProducer.sendDeleteProductMessage(TEST_ID);
+
+        ArgumentCaptor<Message> argumentCaptor = ArgumentCaptor.forClass(Message.class);
+        verify(rabbitTemplate).sendAndReceive(anyString(), anyString(), argumentCaptor.capture());
+
+        Message capturedArgument = argumentCaptor.getValue();
+
+        String capturedArgumentBody = new String(capturedArgument.getBody(), StandardCharsets.UTF_8);
+
+        MessageType capturedArgumentMessageType = MessageType.valueOf(capturedArgument
+                .getMessageProperties()
+                .getType());
+
+        assertThat(capturedArgumentBody).isEqualTo(TEST_ID);
+        assertThat(capturedArgumentMessageType).isEqualTo(DELETE_PRODUCT);
+        assertThat(receivedResponse).isEqualTo(response);
     }
 }
