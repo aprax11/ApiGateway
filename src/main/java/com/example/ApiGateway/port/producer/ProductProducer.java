@@ -5,6 +5,7 @@ import com.example.ApiGateway.exceptions.ErrorResponseException;
 import com.example.ApiGateway.port.interfaces.IProductProducer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Message;
@@ -21,12 +22,11 @@ import static com.example.ApiGateway.core.domain.model.MessageType.*;
 
 @Slf4j
 @Service
+@Data
 public class ProductProducer implements IProductProducer {
 
-    @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Autowired
     private DirectExchange directExchange;
 
     @Value("product-service.rpc.key")
