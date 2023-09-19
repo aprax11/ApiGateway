@@ -22,11 +22,11 @@ import static com.example.ApiGateway.core.domain.model.MessageType.*;
 
 @Slf4j
 @Service
-@Data
+
 public class ProductProducer implements IProductProducer {
-
+    @Autowired
     private RabbitTemplate rabbitTemplate;
-
+    @Autowired
     private DirectExchange directExchange;
 
     @Value("product-service.rpc.key")
