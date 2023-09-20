@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,17 +19,19 @@ import static org.springframework.http.ResponseEntity.status;
 @RestController
 @Slf4j
 @Data
+@CrossOrigin
 public class Controller {
 
     private final IApiService apiService;
 
+    @PreAuthorize("hasRole('user')")
     @GetMapping("/allProducts")
     @ResponseStatus(OK)
     public ResponseEntity<List<Product>> getAllProducts(){
         log.info("Endpoint: get all Products called");
         return status(OK).body(apiService.getAllProducts());
     }
-
+    @PreAuthorize("hasRole('user')")
     @GetMapping("/product/{id}")
     @ResponseStatus(OK)
     public ResponseEntity<Product> getProduct(@PathVariable("id") String id){
@@ -36,7 +39,7 @@ public class Controller {
         log.info("Endpoint: get Product for product {} called", id);
         return status(OK).body(apiService.getProduct(id));
     }
-
+    @PreAuthorize("hasRole('admin')")
     @PostMapping(path="/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
@@ -44,6 +47,7 @@ public class Controller {
         log.info("Endpoint: post Product for product {} called", product.getName());
         return status(CREATED).body(apiService.createProduct(product));
     }
+    @PreAuthorize("hasRole('admin')")
     @PutMapping(path = "/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
@@ -51,6 +55,7 @@ public class Controller {
         log.info("Endpoint: update Product for product {} called", product.getId());
         return status(OK).body(apiService.updateProduct(product));
     }
+    @PreAuthorize("hasRole('admin')")
     @DeleteMapping("/products/{id}")
     @ResponseStatus(OK)
     public ResponseEntity<String> deleteProduct(@PathVariable("id") String id) {

@@ -5,3 +5,11 @@ spring:
   rabbitmq:
     host: rabbitmq-container
     port: 5672
+
+keycloak:
+  realm: KBE_Project_Realm
+  auth-server-url: http://localhost:8080
+  ssl-required: external
+  public-client: false
+  resource: API_Gateway
+  confidential-port: 0

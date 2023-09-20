@@ -1,6 +1,7 @@
 package com.example.ApiGateway.port.config;
 
 
+import com.example.ApiGateway.exceptions.ErrorResponseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -15,7 +16,7 @@ import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ErrorHandler;
-import org.springframework.web.ErrorResponseException;
+
 
 
 @Slf4j
