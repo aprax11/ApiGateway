@@ -45,7 +45,6 @@ public class ProductProducerTest {
                     "Das ist ein Ring.",
                     "22",
                     "details",
-                    1,
                     "link"
             ),
             new Product(
@@ -54,7 +53,6 @@ public class ProductProducerTest {
                     "Das ist eine Kette.",
                     "220",
                     "details",
-                    1,
                     "link"
             )
     );

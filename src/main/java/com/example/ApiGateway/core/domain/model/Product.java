@@ -20,8 +20,6 @@ public class Product {
 
     private String details;
 
-    private int count;
-
     private String imageLink;
 }
 
