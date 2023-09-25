@@ -2,6 +2,7 @@ package com.example.ApiGateway.core.domain.service;
 
 import com.example.ApiGateway.core.domain.model.Product;
 import com.example.ApiGateway.core.domain.service.ApiService;
+import com.example.ApiGateway.port.producer.BasketProducer;
 import com.example.ApiGateway.port.producer.ProductProducer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,8 @@ public class ApiServiceTest {
 
     @Mock
     ProductProducer productProducer;
+    @Mock
+    BasketProducer basketProducer;
     @Mock
     Product product;
     @InjectMocks

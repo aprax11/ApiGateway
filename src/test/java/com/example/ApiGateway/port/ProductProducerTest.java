@@ -65,7 +65,7 @@ public class ProductProducerTest {
     @BeforeEach
     void setUp() {
         try {
-            var field = productProducer.getClass().getDeclaredField("routingKey");
+            var field = productProducer.getClass().getDeclaredField("routingKeyProductService");
             field.setAccessible(true);
             field.set(productProducer, ROUTING_KEY);
         } catch (NoSuchFieldException | IllegalAccessException e) {
