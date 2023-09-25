@@ -5,7 +5,6 @@ import com.example.ApiGateway.exceptions.ErrorResponseException;
 import com.example.ApiGateway.port.interfaces.IProductProducer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Message;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static com.example.ApiGateway.core.domain.model.MessageType.*;
+import static com.example.ApiGateway.port.producer.MessageType.*;
 
 @Slf4j
 @Service
@@ -30,7 +29,8 @@ public class ProductProducer implements IProductProducer {
     private DirectExchange directExchange;
 
     @Value("product-service.rpc.key")
-    private String routingKey;
+    private String routingKeyProductService;
+
 
 
     @Override
@@ -43,7 +43,7 @@ public class ProductProducer implements IProductProducer {
 
         Message receivedMessage = rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
-                routingKey,
+                routingKeyProductService,
                 message
         );
 
@@ -65,7 +65,7 @@ public class ProductProducer implements IProductProducer {
         setMessageType(message, GET_ALL_PRODUCTS.name());
         Message receivedMessage = rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
-                routingKey,
+                routingKeyProductService,
                 message
         );
         if (messageIsNull(receivedMessage)) {
@@ -89,7 +89,7 @@ public class ProductProducer implements IProductProducer {
         setMessageType(message, UPDATE_PRODUCT.name());
         Message receivedMessage = rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
-                routingKey,
+                routingKeyProductService,
                 message
         );
         if (messageIsNull(receivedMessage)) {
@@ -110,7 +110,7 @@ public class ProductProducer implements IProductProducer {
         setMessageType(message, DELETE_PRODUCT.name());
         Message receivedMessage = rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
-                routingKey,
+                routingKeyProductService,
                 message
         );
         if (messageIsNull(receivedMessage)) {
@@ -127,7 +127,7 @@ public class ProductProducer implements IProductProducer {
         setMessageType(message, GET_PRODUCT.name());
         Message receivedMessage = rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
-                routingKey,
+                routingKeyProductService,
                 message
         );
         if (messageIsNull(receivedMessage)) {

@@ -1,6 +1,6 @@
 package com.example.ApiGateway.port;
 
-import com.example.ApiGateway.core.domain.model.MessageType;
+import com.example.ApiGateway.port.producer.MessageType;
 import com.example.ApiGateway.core.domain.model.Product;
 import com.example.ApiGateway.exceptions.ErrorResponseException;
 import com.example.ApiGateway.port.producer.ProductProducer;
@@ -17,11 +17,10 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.ApiGateway.core.domain.model.MessageType.*;
+import static com.example.ApiGateway.port.producer.MessageType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
