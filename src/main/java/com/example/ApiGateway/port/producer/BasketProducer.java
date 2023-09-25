@@ -36,7 +36,7 @@ public class BasketProducer implements IBasketProducer {
         byte[] serializedProduct = new Gson().toJson(basketComponent).getBytes();
 
         Message message = new Message(serializedProduct);
-        setMessageType(message, ADDTOBASKET.name());
+        setMessageType(message, ADD_TO_BASKET.name());
 
         Message receivedMessage = sendAndReceive(message);
 
@@ -76,7 +76,7 @@ public class BasketProducer implements IBasketProducer {
         byte[] serializedProduct = new Gson().toJson(basketComponent).getBytes();
 
         Message message = new Message(serializedProduct);
-        setMessageType(message, DELETEFROMBASKET.name());
+        setMessageType(message, DELETE_FROM_BASKET.name());
 
         Message receivedMessage = sendAndReceive(message);
 

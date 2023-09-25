@@ -1,8 +1,11 @@
 package com.example.ApiGateway.core.domain.service;
 
 import com.example.ApiGateway.core.domain.interfaces.IApiService;
+import com.example.ApiGateway.core.domain.model.Basket;
+import com.example.ApiGateway.core.domain.model.BasketComponent;
 import com.example.ApiGateway.core.domain.model.Product;
 import com.example.ApiGateway.exceptions.ErrorResponseException;
+import com.example.ApiGateway.port.interfaces.IBasketProducer;
 import com.example.ApiGateway.port.interfaces.IProductProducer;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,8 @@ import java.util.List;
 public class ApiService implements IApiService {
 
     private final IProductProducer productProducer;
+
+    private final IBasketProducer basketProducer;
     @Override
     public Product createProduct(Product product) {
         return productProducer.sendCreateProductRequest(product);
@@ -36,5 +41,17 @@ public class ApiService implements IApiService {
     @Override
     public String deleteProduct(String id) throws ErrorResponseException {
         return productProducer.sendDeleteProductMessage(id);
+    }
+    @Override
+    public Basket getBasketOfUser(String username){
+        return basketProducer.sendGetBasketMessage(username);
+    }
+    @Override
+    public BasketComponent addToBasket(BasketComponent basketComponent){
+        return basketProducer.sendAddToBasketRequest(basketComponent);
+    }
+    @Override
+    public BasketComponent deleteFromBasket(BasketComponent basketComponent){
+        return basketProducer.sendDeleteFromBasketMessage(basketComponent);
     }
 }

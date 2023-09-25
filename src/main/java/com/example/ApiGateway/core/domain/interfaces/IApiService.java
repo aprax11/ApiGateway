@@ -1,5 +1,7 @@
 package com.example.ApiGateway.core.domain.interfaces;
 
+import com.example.ApiGateway.core.domain.model.Basket;
+import com.example.ApiGateway.core.domain.model.BasketComponent;
 import com.example.ApiGateway.core.domain.model.Product;
 import com.example.ApiGateway.exceptions.ErrorResponseException;
 
@@ -11,4 +13,10 @@ public interface IApiService {
     Product getProduct(String id);
     Product updateProduct(Product product) throws ErrorResponseException;
     String deleteProduct(String id) throws ErrorResponseException;
+
+    Basket getBasketOfUser(String username);
+
+    BasketComponent addToBasket(BasketComponent basketComponent);
+
+    BasketComponent deleteFromBasket(BasketComponent basketComponent);
 }

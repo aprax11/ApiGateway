@@ -7,6 +7,6 @@ public enum MessageType {
     GET_PRODUCT,
     GET_ALL_PRODUCTS,
     GET_BASKET,
-    ADDTOBASKET,
-    DELETEFROMBASKET
+    ADD_TO_BASKET,
+    DELETE_FROM_BASKET
 }
