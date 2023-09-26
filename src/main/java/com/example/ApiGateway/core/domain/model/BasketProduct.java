@@ -13,7 +13,7 @@ public class BasketProduct {
 
     private String name;
 
-    private int price;
+    private String price;
 
     private String image;
 

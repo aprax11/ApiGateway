@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 import static com.example.ApiGateway.port.producer.MessageType.*;
 
@@ -53,6 +54,7 @@ public class BasketProducer implements IBasketProducer {
     }
     @Override
     public Basket sendGetBasketMessage(String username){
+
 
         Message message = new Message(username.getBytes());
         setMessageType(message, GET_BASKET.name());
