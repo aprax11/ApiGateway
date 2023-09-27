@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BasketComponent {
 
-     private String username;
+     private UUID userId;
 
      private BasketProduct product;
 

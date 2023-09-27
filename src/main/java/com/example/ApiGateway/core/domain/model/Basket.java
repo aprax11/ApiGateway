@@ -5,15 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Basket {
 
-    private String userName;
+    private UUID userId;
 
-    private List<BasketProduct> products;
+    private List<BasketItem> products;
 
     private int totalPrice;
 

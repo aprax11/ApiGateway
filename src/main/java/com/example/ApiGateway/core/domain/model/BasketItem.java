@@ -9,14 +9,14 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BasketProduct {
-
+public class BasketItem {
     private UUID id;
 
     private String name;
 
     private String price;
 
-    private String imageLink;
+    private String image;
 
+    private int count;
 }
