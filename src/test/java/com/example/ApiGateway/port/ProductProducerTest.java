@@ -32,15 +32,15 @@ import static org.mockito.Mockito.when;
 public class ProductProducerTest {
 
     public static final String TEST = "test";
-    public static final String TEST_PRODUCT_ONE = "Ring";
-    public static final String TEST_PRODUCT_TWO = "Kette";
+    public static final String TEST_PRODUCT_NAME_ONE = "Ring";
+    public static final String TEST_PRODUCT_NAME_TWO = "Kette";
     public static final String TEST_ID = UUID.randomUUID().toString();
     public static final String ROUTING_KEY = "routingKey";
 
     public static final List<Product> ALL_PRODUCTS = List.of(
             new Product(
                     UUID.randomUUID(),
-                    TEST_PRODUCT_ONE,
+                    TEST_PRODUCT_NAME_ONE,
                     "Das ist ein Ring.",
                     "22",
                     "details",
@@ -48,7 +48,7 @@ public class ProductProducerTest {
             ),
             new Product(
                     UUID.randomUUID(),
-                    TEST_PRODUCT_TWO,
+                    TEST_PRODUCT_NAME_TWO,
                     "Das ist eine Kette.",
                     "220",
                     "details",
@@ -101,8 +101,8 @@ public class ProductProducerTest {
 
 
         assertThat(capturedArgumentMessageType).isEqualTo(GET_ALL_PRODUCTS);
-        assertThat(receivedResponse.get(0).getName()).isEqualTo(TEST_PRODUCT_ONE);
-        assertThat(receivedResponse.get(1).getName()).isEqualTo(TEST_PRODUCT_TWO);
+        assertThat(receivedResponse.get(0).getName()).isEqualTo(TEST_PRODUCT_NAME_ONE);
+        assertThat(receivedResponse.get(1).getName()).isEqualTo(TEST_PRODUCT_NAME_TWO);
     }
     @Test
     void getProductEmptyResponseMessageTest() {
@@ -134,7 +134,7 @@ public class ProductProducerTest {
 
         assertThat(capturedArgumentBody).isEqualTo(TEST_ID);
         assertThat(capturedArgumentMessageType).isEqualTo(GET_PRODUCT);
-        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_ONE);
+        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_NAME_ONE);
     }
     @Test
     void createProductEmptyResponseMessageTest() {
@@ -175,7 +175,7 @@ public class ProductProducerTest {
 
         assertThat(argumentProduct).isEqualTo(testProduct);
         assertThat(capturedArgumentMessageType).isEqualTo(CREATE_PRODUCT);
-        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_ONE);
+        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_NAME_ONE);
     }
     @Test
     void updateProductEmptyResponseMessageTest() {
@@ -216,7 +216,7 @@ public class ProductProducerTest {
 
         assertThat(argumentProduct).isEqualTo(testProduct);
         assertThat(capturedArgumentMessageType).isEqualTo(UPDATE_PRODUCT);
-        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_ONE);
+        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_NAME_ONE);
     }
     @Test
     void deleteProductEmptyResponseMessageTest() {
