@@ -1,5 +1,6 @@
 package com.example.ApiGateway.core.domain.service;
 
+import com.example.ApiGateway.core.domain.model.BasketComponent;
 import com.example.ApiGateway.core.domain.model.Product;
 import com.example.ApiGateway.core.domain.service.ApiService;
 import com.example.ApiGateway.port.producer.BasketProducer;
@@ -23,6 +24,8 @@ public class ApiServiceTest {
     BasketProducer basketProducer;
     @Mock
     Product product;
+    @Mock
+    BasketComponent basketComponent;
     @InjectMocks
     ApiService apiService;
 
@@ -61,5 +64,27 @@ public class ApiServiceTest {
         apiService.updateProduct(product);
 
         verify(productProducer).sendUpdateProductMessage(product);
+    }
+    @Test
+    void getBasketOfUserTest() {
+
+        UUID id = UUID.randomUUID();
+        apiService.getBasketOfUser(id.toString());
+
+        verify(basketProducer).sendGetBasketMessage(id.toString());
+    }
+    @Test
+    void addToBasketTest() {
+
+        apiService.addToBasket(basketComponent);
+
+        verify(basketProducer).sendAddToBasketRequest(basketComponent);
+    }
+    @Test
+    void deleteFromBasketTest() {
+
+        apiService.deleteFromBasket(basketComponent);
+
+        verify(basketProducer).sendDeleteFromBasketMessage(basketComponent);
     }
 }
