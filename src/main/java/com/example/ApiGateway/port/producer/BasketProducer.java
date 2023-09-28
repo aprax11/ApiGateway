@@ -49,10 +49,7 @@ public class BasketProducer implements IBasketProducer {
         }
 
         String receivedObject = new String(receivedMessage.getBody(), StandardCharsets.UTF_8);
-        return new Gson().fromJson(
-                receivedObject,
-                BasketComponent.class
-        );
+        return new BasketComponent();
     }
     @Override
     public Basket sendGetBasketMessage(String username){
@@ -70,10 +67,10 @@ public class BasketProducer implements IBasketProducer {
         }
 
         String receivedObject = new String(receivedMessage.getBody(), StandardCharsets.UTF_8);
-        return new Gson().fromJson(
-                receivedObject,
-                Basket.class
-        );
+        Basket basket = new Gson().fromJson(receivedObject, Basket.class);
+
+        log.info("returning Basket: {}", basket);
+        return basket;
     }
     @Override
     public BasketComponent sendDeleteFromBasketMessage(BasketComponent basketComponent){
@@ -93,10 +90,7 @@ public class BasketProducer implements IBasketProducer {
         }
 
         String receivedObject = new String(receivedMessage.getBody(), StandardCharsets.UTF_8);
-        return new Gson().fromJson(
-                receivedObject,
-                BasketComponent.class
-        );
+        return new BasketComponent();
     }
 
     private Message sendAndReceive(Message message){

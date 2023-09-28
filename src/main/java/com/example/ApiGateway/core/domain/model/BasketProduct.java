@@ -17,6 +17,6 @@ public class BasketProduct {
 
     private String price;
 
-    private String imageLink;
+    private String image;
 
 }
