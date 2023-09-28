@@ -34,6 +34,8 @@ public class BasketProducer implements IBasketProducer {
     @Override
     public BasketComponent sendAddToBasketRequest(BasketComponent basketComponent){
 
+        log.info("sending ADD TO basket message for component: {}", basketComponent);
+
         byte[] serializedProduct = new Gson().toJson(basketComponent).getBytes();
 
         Message message = new Message(serializedProduct);
@@ -55,6 +57,7 @@ public class BasketProducer implements IBasketProducer {
     @Override
     public Basket sendGetBasketMessage(String username){
 
+        log.info("sending get basket message for user: {}", username);
 
         Message message = new Message(username.getBytes());
         setMessageType(message, GET_BASKET.name());
@@ -74,6 +77,8 @@ public class BasketProducer implements IBasketProducer {
     }
     @Override
     public BasketComponent sendDeleteFromBasketMessage(BasketComponent basketComponent){
+
+        log.info("sending DELETE FROM basket message for component: {}", basketComponent);
 
         byte[] serializedProduct = new Gson().toJson(basketComponent).getBytes();
 
