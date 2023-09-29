@@ -4,6 +4,8 @@ import com.example.ApiGateway.core.domain.interfaces.IApiService;
 import com.example.ApiGateway.core.domain.model.Basket;
 import com.example.ApiGateway.core.domain.model.BasketComponent;
 import com.example.ApiGateway.core.domain.model.Product;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -26,6 +28,7 @@ public class Controller {
 
     @GetMapping("/allProducts")
     @ResponseStatus(OK)
+    @Operation(summary = "Get all Products from the Product-Database.")
     public ResponseEntity<List<Product>> getAllProducts(){
         log.info("Endpoint: get all Products called");
         return status(OK).body(apiService.getAllProducts());
@@ -33,7 +36,10 @@ public class Controller {
 
     @GetMapping("/product/{id}")
     @ResponseStatus(OK)
-    public ResponseEntity<Product> getProduct(@PathVariable("id") String id){
+    @Operation(summary = "Get the specified Product from the Product-Database.")
+    public ResponseEntity<Product> getProduct(
+            @Parameter(description = "ID of the Product.")
+            @PathVariable("id") String id){
 
         log.info("Endpoint: get Product for product {} called", id);
         return status(OK).body(apiService.getProduct(id));
@@ -41,42 +47,60 @@ public class Controller {
 
     @PostMapping(path="/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    @Operation(summary = "Create a product.")
+    public ResponseEntity<Product> createProduct(
+            @Parameter(description = "The product that should be created.")
+            @RequestBody Product product) {
 
         log.info("Endpoint: post Product for product {} called", product.getName());
         return status(CREATED).body(apiService.createProduct(product));
     }
     @PutMapping(path = "/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+    @Operation(summary = "Create a product.")
+    public ResponseEntity<Product> updateProduct(
+            @Parameter(description = "The updated version of the product.")
+            @RequestBody Product product) {
 
         log.info("Endpoint: update Product for product {} called", product.getId());
         return status(OK).body(apiService.updateProduct(product));
     }
     @DeleteMapping("/products/{id}")
     @ResponseStatus(OK)
-    public ResponseEntity<String> deleteProduct(@PathVariable("id") String id) {
+    @Operation(summary = "Delete a product.")
+    public ResponseEntity<String> deleteProduct(
+            @Parameter(description = "The id of the product that should be Deleted.")
+            @PathVariable("id") String id) {
 
         log.info("Endpoint: get delete product with id {} called", id);
         return status(OK).body(apiService.deleteProduct(id));
     }
     @GetMapping("/basket/{username}")
     @ResponseStatus(OK)
-    public ResponseEntity<Basket> getBasketForUser(@PathVariable("username") String username){
+    @Operation(summary = "Get the current shopping basket of the user form the database.")
+    public ResponseEntity<Basket> getBasketForUser(
+            @Parameter(description = "The id of the user.")
+            @PathVariable("username") String username){
 
         log.info("Endpoint: get Basket for Basket of user {} called", username);
         return status(OK).body(apiService.getBasketOfUser(username));
     }
     @PutMapping(path = "/basket/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    public ResponseEntity<BasketComponent> addToBasket(@RequestBody BasketComponent basketComponent) {
+    @Operation(summary = "Add an item to the shopping basket.")
+    public ResponseEntity<BasketComponent> addToBasket(
+            @Parameter(description = "The basket component that should be added.")
+            @RequestBody BasketComponent basketComponent) {
 
         log.info("Endpoint: add to basket for component {} called", basketComponent);
         return status(OK).body(apiService.addToBasket(basketComponent));
     }
     @PutMapping(path = "/basket/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    public ResponseEntity<BasketComponent> deleteFromBasket(@RequestBody BasketComponent basketComponent) {
+    @Operation(summary = "Remove an item to the shopping basket.")
+    public ResponseEntity<BasketComponent> deleteFromBasket(
+            @Parameter(description = "The basket component that should be removed.")
+            @RequestBody BasketComponent basketComponent) {
 
         log.info("Endpoint: delete from basket for component {} called", basketComponent);
         return status(OK).body(apiService.deleteFromBasket(basketComponent));

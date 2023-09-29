@@ -5,3 +5,7 @@ spring:
   rabbitmq:
     host: rabbitmq-container
     port: 5672
+
+springdoc:
+  swagger-ui:
+    enabled: true
