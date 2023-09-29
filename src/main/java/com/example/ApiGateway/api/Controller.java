@@ -1,6 +1,8 @@
 package com.example.ApiGateway.api;
 
 import com.example.ApiGateway.core.domain.interfaces.IApiService;
+import com.example.ApiGateway.core.domain.model.Basket;
+import com.example.ApiGateway.core.domain.model.BasketComponent;
 import com.example.ApiGateway.core.domain.model.Product;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -58,5 +60,25 @@ public class Controller {
         log.info("Endpoint: get delete product with id {} called", id);
         return status(OK).body(apiService.deleteProduct(id));
     }
+    @GetMapping("/basket/{username}")
+    @ResponseStatus(OK)
+    public ResponseEntity<Basket> getBasketForUser(@PathVariable("username") String username){
 
+        log.info("Endpoint: get Basket for Basket of user {} called", username);
+        return status(OK).body(apiService.getBasketOfUser(username));
+    }
+    @PutMapping(path = "/basket/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(OK)
+    public ResponseEntity<BasketComponent> addToBasket(@RequestBody BasketComponent basketComponent) {
+
+        log.info("Endpoint: add to basket for component {} called", basketComponent);
+        return status(OK).body(apiService.addToBasket(basketComponent));
+    }
+    @PutMapping(path = "/basket/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(OK)
+    public ResponseEntity<BasketComponent> deleteFromBasket(@RequestBody BasketComponent basketComponent) {
+
+        log.info("Endpoint: delete from basket for component {} called", basketComponent);
+        return status(OK).body(apiService.deleteFromBasket(basketComponent));
+    }
 }

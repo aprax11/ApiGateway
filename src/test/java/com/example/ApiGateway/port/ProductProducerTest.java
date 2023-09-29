@@ -1,6 +1,6 @@
 package com.example.ApiGateway.port;
 
-import com.example.ApiGateway.core.domain.model.MessageType;
+import com.example.ApiGateway.port.producer.MessageType;
 import com.example.ApiGateway.core.domain.model.Product;
 import com.example.ApiGateway.exceptions.ErrorResponseException;
 import com.example.ApiGateway.port.producer.ProductProducer;
@@ -17,11 +17,10 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.ApiGateway.core.domain.model.MessageType.*;
+import static com.example.ApiGateway.port.producer.MessageType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -33,15 +32,15 @@ import static org.mockito.Mockito.when;
 public class ProductProducerTest {
 
     public static final String TEST = "test";
-    public static final String TEST_PRODUCT_ONE = "Ring";
-    public static final String TEST_PRODUCT_TWO = "Kette";
+    public static final String TEST_PRODUCT_NAME_ONE = "Ring";
+    public static final String TEST_PRODUCT_NAME_TWO = "Kette";
     public static final String TEST_ID = UUID.randomUUID().toString();
     public static final String ROUTING_KEY = "routingKey";
 
     public static final List<Product> ALL_PRODUCTS = List.of(
             new Product(
                     UUID.randomUUID(),
-                    TEST_PRODUCT_ONE,
+                    TEST_PRODUCT_NAME_ONE,
                     "Das ist ein Ring.",
                     "22",
                     "details",
@@ -49,7 +48,7 @@ public class ProductProducerTest {
             ),
             new Product(
                     UUID.randomUUID(),
-                    TEST_PRODUCT_TWO,
+                    TEST_PRODUCT_NAME_TWO,
                     "Das ist eine Kette.",
                     "220",
                     "details",
@@ -66,7 +65,7 @@ public class ProductProducerTest {
     @BeforeEach
     void setUp() {
         try {
-            var field = productProducer.getClass().getDeclaredField("routingKey");
+            var field = productProducer.getClass().getDeclaredField("routingKeyProductService");
             field.setAccessible(true);
             field.set(productProducer, ROUTING_KEY);
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -102,8 +101,8 @@ public class ProductProducerTest {
 
 
         assertThat(capturedArgumentMessageType).isEqualTo(GET_ALL_PRODUCTS);
-        assertThat(receivedResponse.get(0).getName()).isEqualTo(TEST_PRODUCT_ONE);
-        assertThat(receivedResponse.get(1).getName()).isEqualTo(TEST_PRODUCT_TWO);
+        assertThat(receivedResponse.get(0).getName()).isEqualTo(TEST_PRODUCT_NAME_ONE);
+        assertThat(receivedResponse.get(1).getName()).isEqualTo(TEST_PRODUCT_NAME_TWO);
     }
     @Test
     void getProductEmptyResponseMessageTest() {
@@ -135,7 +134,7 @@ public class ProductProducerTest {
 
         assertThat(capturedArgumentBody).isEqualTo(TEST_ID);
         assertThat(capturedArgumentMessageType).isEqualTo(GET_PRODUCT);
-        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_ONE);
+        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_NAME_ONE);
     }
     @Test
     void createProductEmptyResponseMessageTest() {
@@ -176,7 +175,7 @@ public class ProductProducerTest {
 
         assertThat(argumentProduct).isEqualTo(testProduct);
         assertThat(capturedArgumentMessageType).isEqualTo(CREATE_PRODUCT);
-        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_ONE);
+        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_NAME_ONE);
     }
     @Test
     void updateProductEmptyResponseMessageTest() {
@@ -217,7 +216,7 @@ public class ProductProducerTest {
 
         assertThat(argumentProduct).isEqualTo(testProduct);
         assertThat(capturedArgumentMessageType).isEqualTo(UPDATE_PRODUCT);
-        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_ONE);
+        assertThat(receivedResponse.getName()).isEqualTo(TEST_PRODUCT_NAME_ONE);
     }
     @Test
     void deleteProductEmptyResponseMessageTest() {

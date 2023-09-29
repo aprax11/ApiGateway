@@ -1,4 +1,5 @@
 package com.example.ApiGateway.core.domain.model;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,18 +9,14 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class BasketComponent {
 
-    private UUID id;
+     private String userId;
 
-    private String name;
+     private BasketProduct product;
 
-    private String description;
-
-    private String price;
-
-    private String details;
-
-    private String image;
+     public UUID getProductID(){
+          UUID ret = product.getId();
+          return ret;
+     }
 }
-

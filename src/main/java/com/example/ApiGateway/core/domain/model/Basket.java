@@ -1,25 +1,22 @@
 package com.example.ApiGateway.core.domain.model;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Basket {
 
-    private UUID id;
+    private UUID userId;
 
-    private String name;
+    private List<BasketItem> products;
 
-    private String description;
+    private int totalPrice;
 
-    private String price;
 
-    private String details;
-
-    private String image;
 }
-
