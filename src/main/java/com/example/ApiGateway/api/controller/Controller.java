@@ -1,4 +1,4 @@
-package com.example.ApiGateway.api;
+package com.example.ApiGateway.api.controller;
 
 import com.example.ApiGateway.core.domain.interfaces.IApiService;
 import com.example.ApiGateway.core.domain.model.Basket;
